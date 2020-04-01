@@ -1,4 +1,4 @@
-from nltk.stem import PorterStemmer
+from nltk.stem import PorterStemmer, WordNetLemmatizer
 
 
 # only imported the Porter Stemmer
@@ -64,9 +64,16 @@ class Preprocessing:
         # remove these before performing indexing
         return tokens_L  # returns a prepared list of tokens
 
-    def stemmer(self, tokensSP):
-        stemsL = []
+    def stemmer(self, tokens_list):
+        stems_list = []
         ps = PorterStemmer()  # imported from nltk library
-        for tk in tokensSP:  # pass token from token list in stem function and add stems in list
-            stemsL.append(ps.stem(tk))
-        return stemsL  # returns a list of stems
+        for tk in tokens_list:  # pass token from token list in stem function and add stems in list
+            stems_list.append(ps.stem(tk))
+        return stems_list  # returns a list of stems
+
+    def lemmatizer(self, tokens_list):
+        lemma_list = []
+        wnl = WordNetLemmatizer()  # imported from nltk library
+        for tk in tokens_list:  # pass token from token list in stem function and add stems in list
+            lemma_list.append(wnl.lemmatize(tk))
+        return lemma_list  # returns a list of stems

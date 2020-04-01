@@ -12,4 +12,5 @@ if __name__ == "__main__":
     pre_processing = Preprocessing()
     pre_processing.stop_word = stop_list
     tokens = pre_processing.tokenizer(file.read())
-    print(tokens)
+    lemmas = pre_processing.lemmatizer(tokens)
+    # print(lemmas)
