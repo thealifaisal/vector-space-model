@@ -1,8 +1,6 @@
 from nltk.stem import PorterStemmer, WordNetLemmatizer
 
 
-# only imported the Porter Stemmer
-
 # I created a class Preprocessing to encapsulate the token and stemming-wrapper methods
 class Preprocessing:
     stop_word = []
