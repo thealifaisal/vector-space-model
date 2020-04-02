@@ -33,7 +33,8 @@ class Preprocessing:
                             tokens_L.append(string)
                         string = ""
                     else:
-                        if file_buffer[i + 2] not in [" ", ".", ":", ",", "!", "?", "-"]:  # not abbr, e.g:'U.S.A.Something '
+                        # not abbr, e.g:'U.S.A.Something '
+                        if file_buffer[i + 2] not in [" ", ".", ":", ",", "!", "?", "-"]:
                             if string not in self.stop_word:
                                 tokens_L.append(string)
                             string = ""
@@ -71,10 +72,14 @@ class Preprocessing:
         return stems_list  # returns a list of stems
 
     def lemmatizer(self, tokens_list):
-        lemma_list = []
+        lemma_set = {}
         wnl = WordNetLemmatizer()  # imported from nltk library
         for tk in tokens_list:  # pass token from token list in stem function and add stems in list
             lemma = wnl.lemmatize(tk)
-            lemma_list.append(lemma)
-
-        return lemma_list  # returns a list of stems
+            if lemma not in lemma_set.keys():
+                lemma_set[lemma] = 1
+            else:
+                count = lemma_set.get(lemma)
+                count += 1
+                lemma_set[lemma] = count
+        return lemma_set  # returns a set of lemmas
