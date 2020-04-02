@@ -1,0 +1,6 @@
+
+// set key-value
+bag_of_words[lem] = 0
+
+// get value from key
+val = bag_of_words[lem]

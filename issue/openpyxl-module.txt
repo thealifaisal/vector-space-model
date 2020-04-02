@@ -1,0 +1,8 @@
+Download (Windows):
+pip install openpyxl
+
+Reading:
+https://www.geeksforgeeks.org/python-reading-excel-file-using-openpyxl-module/?ref=rp
+
+Writing:
+https://www.geeksforgeeks.org/python-writing-excel-file-using-openpyxl-module/?ref=rp
