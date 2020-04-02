@@ -13,7 +13,14 @@ if __name__ == "__main__":
     file = open(file_name, "r")
     file.readline()     # skips the title
 
+    # <pre-processing>
     pre_processing = Preprocessing()
     pre_processing.stop_word = stop_list
     tokens = pre_processing.tokenizer(file.read())
     lemmas = pre_processing.lemmatizer(tokens)
+    # </pre-processing>
+
+
+
+
+
