@@ -49,8 +49,9 @@ if __name__ == "__main__":
             pre_processing.stop_word = stop_list
             tokens = pre_processing.tokenizer(file.read())
             lemma_set = pre_processing.lemmatizer(tokens)
-            lemmas.append(lemma_set)
+            lemmas.append(lemma_set.copy())
             tokens.clear()
+            lemma_set.clear()
 
             for lem in lemmas[i].keys():
                 try:
@@ -71,8 +72,6 @@ if __name__ == "__main__":
             i += 1
 
         bag_of_words.clear()
-
-
 
         workbook.save("../out/tf-idf.xlsx")
         workbook.close()
