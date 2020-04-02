@@ -1,0 +1,7 @@
+https://stackoverflow.com/questions/2967194/open-in-python-does-not-create-a-file-if-it-doesnt-exist
+
+You should use open with the w+ mode:
+
+>file = open('myfile.dat', 'w+')
+
+a+, w+: creates a file if it does not exist
