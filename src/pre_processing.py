@@ -66,12 +66,15 @@ class Preprocessing:
         stems_list = []
         ps = PorterStemmer()  # imported from nltk library
         for tk in tokens_list:  # pass token from token list in stem function and add stems in list
-            stems_list.append(ps.stem(tk))
+            stem = ps.stem(tk)
+            stems_list.append(stem)
         return stems_list  # returns a list of stems
 
     def lemmatizer(self, tokens_list):
         lemma_list = []
         wnl = WordNetLemmatizer()  # imported from nltk library
         for tk in tokens_list:  # pass token from token list in stem function and add stems in list
-            lemma_list.append(wnl.lemmatize(tk))
+            lemma = wnl.lemmatize(tk)
+            lemma_list.append(lemma)
+
         return lemma_list  # returns a list of stems

@@ -11,16 +11,22 @@ So, supposing my python application is in a directory called "myapp/"
 
 >python -m nltk.downloader
 
-This'll pop up the nltk downloader. Set your Download Directory to whatever_the_absolute_path_to_myapp_is/nltk_data/. If you're using the GUI downloader, the download directory is set through a text field on the bottom of the UI. If you're using the command line one, you set it in the config menu.
+This'll pop up the nltk downloader. Set your Download Directory to whatever_the_absolute_path_to_myapp_is/nltk_data/.
+If you're using the GUI downloader, the download directory is set through a text field on the bottom of the UI.
+If you're using the command line one, you set it in the config menu.
 
-Once the downloader knows to point to your newly created nltk_data directory, download your corpus.
+Once the downloader knows to point to your newly created nltk_data directory, download your corpus "wordnet".
 
-Or in one step from Python code:
+--- Or in one step from Python code:
 
 >nltk.download("wordnet", "whatever_the_absolute_path_to_myapp_is/nltk_data/")
 
 -------------- Step 3: Let nltk Know Where to Look
 
 ntlk looks for data,resources,etc. in the locations specified in the nltk.data.path variable.
-All you need to do is add nltk.data.path.append('./nltk_data/') to the python file actually using nltk,
+All you need to do is add 
+
+>nltk.data.path.append('./nltk_data/') 
+
+to the python file actually using nltk,
 and it will look for corpora, tokenizers, and such in there in addition to the default paths.
