@@ -8,7 +8,7 @@ Length of bag of words will be saved.
 The lemmas from the list will be written to an Excel file at column 0.
 Now 56 columns for documents (tf), 1 column for a query (tf), 1 column for Document Frequency (df), 1
 column for Inverse Document Frequency (idf), 56 columns for document's tf*idf, 1 column for query's
-tf*idf will be created.
+tfxidf will be created.
 
 Now again read each document one by one, for specific cell(token,doc-col) write the tf of that token.
 This can be done by creating a set structure with key as a token and value as it’s count. Once the
@@ -24,8 +24,13 @@ Now calculate idf for that df by using log(N/df) and save it into the respective
 tf*idf for for each document, save it into the columns. Our work for one word has been done. Now do
 this document preparing for each word.
 
-After that, read a query, create tokens then lemmas, write it into tf col for query in Excel, calculate tf*idf
+After that, read a query, create tokens then lemmas, write it into tf col for query in Excel, calculate tfxidf
 of query.
 
-Now select a tf*idf doc column and multiple with tf*idf query, sum all those products if sum < alpha, add
-that document I’d to result set. Do this for all tf*idf doc columns.
+Now select a tfxidf doc column and multiple with tfxidf query, sum all those products if sum < alpha, add
+that document id to result set. Do this for all tfxidf doc columns.
+
+Since a cache excel file has been created with tf*idf scores, the next time the program runs, it will check
+a if a file is created and if it is created will check a certain, if flag is turned on that means computation has
+been done, we just have to process the scores for the query which would reduce the time of the system being
+available for general use.
