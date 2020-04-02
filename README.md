@@ -1,4 +1,4 @@
-#Algorithm
+# Algorithm
 
 Read a speech file and pass it into the homemade tokenizer that returns a list of tokens. The tokens list
 is then passed to nltk's lemmatizer that returns a list of lemmas.
