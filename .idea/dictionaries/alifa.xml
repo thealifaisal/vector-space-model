@@ -4,6 +4,7 @@
       <w>lemmatizer</w>
       <w>nltk</w>
       <w>stopword</w>
+      <w>xlsx</w>
     </words>
   </dictionary>
 </component>
