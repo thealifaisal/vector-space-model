@@ -1,7 +1,8 @@
 import nltk
 import openpyxl
-from src.pre_processing import Preprocessing
+import math
 import time
+from src.pre_processing import Preprocessing
 
 
 # ---------------------------------- main code ----------------------------------
@@ -29,17 +30,17 @@ if __name__ == "__main__":
         workbook = openpyxl.Workbook()
         sheet = workbook.active
 
-        # total columns to be created: 118
+        # total columns to be created: 1+56+1+1+1+56+1 = 117
 
         # <creating-columns>
         cell = sheet.cell(1, 1).value = "words"
         for i in range(2, 58):
-            sheet.cell(1, i).value = "d.tf:" + str(i-2)
+            sheet.cell(1, i).value = "d.tf:" + str(i - 2)
         sheet.cell(1, 58).value = "q.tf"
         sheet.cell(1, 59).value = "df"
         sheet.cell(1, 60).value = "idf"
         for i in range(61, 117):
-            sheet.cell(1, i).value = "d.val:" + str(i-61)
+            sheet.cell(1, i).value = "d.val:" + str(i - 61)
         sheet.cell(1, 117).value = "q.val"
         # </creating-columns>
 
@@ -94,8 +95,8 @@ if __name__ == "__main__":
 
         # writes words to excel sheet from 2nd row
         i = 2
-        for words in bag_of_words:
-            sheet.cell(i, 1).value = words
+        for word in bag_of_words:
+            sheet.cell(i, 1).value = word
             i += 1
 
         # since bag-of-words was written to disk
@@ -105,7 +106,28 @@ if __name__ == "__main__":
         # a lemmas-list is in memory which has sets for each document
         # each set has a key which is a lemma and a value against the key
         # as term-frequency
+        # e.g: [{trump: 57, ...}, {trump:10, ...}, ...]
 
+        s = time.time()
+        for i in range(2, len_of_bag_of_words + 2):
+            word = sheet.cell(i, 1).value
+            df = 0
+            idf = 0.0
+            for doc_id in range(0, 56):
+                tf = lemmas[doc_id].get(word)
+                if tf is None:
+                    sheet.cell(i, doc_id + 2).value = 0
+                else:
+                    sheet.cell(i, doc_id + 2).value = tf
+                    df += 1
+            sheet.cell(i, 59).value = df
+            idf = float(format(math.log10(56/df), '.5f'))
+            sheet.cell(i, 60).value = idf
+            for doc_id in range(0, 56):
+                tf = float(sheet.cell(i, doc_id+2).value)
+                value = float(format(tf*idf, '.5f'))
+                sheet.cell(i, doc_id+61).value = value
+        print(time.time()-s)
         workbook.save("../out/tf-idf.xlsx")
         workbook.close()
 
