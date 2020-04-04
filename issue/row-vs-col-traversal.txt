@@ -1,0 +1,16 @@
+https://cs.stackexchange.com/questions/14826/performance-of-row-vs-column-wise-matrix-traversal
+
+
+In today's standard architectures, the cache uses what is called "spatial-locality". 
+This is the intuitive idea that if you call some cell in the memory, it is likely that you will want to read cells that are "close by". 
+Indeed, this is what happens when you read 1D arrays.
+
+Now, consider how a matrix is represented in the memory: a 2D matrix is simply encoded as a 1D array, row by row. 
+For example, the matrix (2,34,5) is represented as 2,3,4,5.
+
+When you start reading the matrix in cell (0,0), the CPU automatically caches the cells that are close by, 
+which start by the first row (and if there is enough cache, may also go to the next row, etc).
+
+If your algorithm works row-by-row, then the next call will be to an element still in this row, 
+which is cached, so you will get a fast response. If, however, you call an element in a different row (albeit in the same column), 
+you are more likely to get a cache miss, and you will need to fetch the correct cell from a higher memory.
