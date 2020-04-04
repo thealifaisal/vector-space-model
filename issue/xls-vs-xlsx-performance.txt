@@ -1,0 +1,42 @@
+Once I created and wrote data to a xlsx file which became 1.7 MB in size.
+This increased the time of saving the file to disk.
+It took 15 seconds to save a xlsx file of 1.7 MB on disk.
+
+Then I searched the internet and found the performance differences.
+
+--------- https://groups.google.com/forum/#!topic/python-excel/-QM0h5axXdo
+
+" The differences are not subtle, in my opinion.
+
+The first difference, in the particular case of xlrd, is that the
+on_demand option doesn't do anything when reading .xlsx.  So a more
+fair comparison of speed would be to not use the on_demand option.
+
+Then you would encounter the intrinsic differences between the .xls
+and .xlsx formats themselves.  In principle, this would affect any
+program trying to read the respective files, not just xlrd, and not
+just Python for that matter.
+
+.xls is a custom binary format; .xlsx is a zipped collection of XML
+files.  So, even assuming the respective reading algorithms are as
+efficient as possible, the .xlsx reader first has to unzip the
+archive, then parse XML.  This puts it at quite a performance
+disadvantage to the .xls reader which, in principle, can build a map
+of what's in the file by reading a few bytes, using those to calculate
+some offsets, reading some bytes at those offsets, calculating some
+more offsets, etc., due to the nature of the binary records that
+comprise a .xls file.  Also, for a given amount of Excel data, the
+binary format is going to be smaller than the uncompressed XML.
+
+Finally, I haven't really delved deeply into the xlrd code, but it's
+possible that its .xlsx-reading algorithm isn't as well-optimized as
+its .xls-reading algorithm. "
+
+------------------ CALCULATIONS ARE FASTER ON LARGE DATA USING EXCEL SHEET ---------------------------------------
+
+My motivation for still using Excell:
+
+https://towardsdatascience.com/boost-your-efficiency-and-process-excel-files-with-python-cae650c85d6c
+
+" We finished this calculation in 86 ms. One big advantage of processing Excel-files with Python is that any kind of calculation
+is much faster done as in Excel itself. The more complex the operations, the greater the speed advantages. "
