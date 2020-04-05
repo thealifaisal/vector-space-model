@@ -15,9 +15,50 @@ def import_stop_list(path):
     return stop_list
 
 
-def process_corpora():
+def process_query(query):
+    print()
 
-    stop_list = import_stop_list("../resource/stopword-list.txt")
+
+def pre_processing(stop_list_path, string):
+
+    stop_list = import_stop_list(stop_list_path)
+
+    # creating a object of the Preprocessing class
+    _pre_processing = Preprocessing()
+
+    # a stop-list is assigned to attribute of class
+    _pre_processing.stop_word = stop_list
+
+    # a string of file was passed to tokenizer that returns a list of tokens
+    tokens = _pre_processing.tokenizer(string)
+
+    # a set of lemma is returned as {lemma: tf}
+    lemma_set = _pre_processing.lemmatizer(tokens)
+
+    # list of stop-word is unusable, so it is cleared
+    stop_list.clear()
+
+    # list of tokens is unusable, so it is cleared
+    tokens.clear()
+
+    return lemma_set
+
+
+def prepare_bag_of_words(_lemmas_set,  _bag_of_words):
+    # lemma_set for i-th doc and keys() gives lemmas in the set
+    for lem in _lemmas_set.keys():
+        try:
+            # a set was used because of its speed due to hashing which costs O(1)
+            # otherwise a list would cost O(n) in searching the lemma from bag-of-words
+            # because to restrict the repetitive lemmas from entire corpus
+            _bag_of_words[lem] = 0
+        except KeyError:
+            # if lemma exists, it would throw KeyError and would do nothing
+            pass
+    return _bag_of_words
+
+
+def process_corpora():
 
     # two important data-structures are initialized
     _bag_of_words = {}
@@ -27,37 +68,27 @@ def process_corpora():
 
     # a loop is run to iterate over the entire corpus of length 56
     for i in range(0, 56):
+
         file_name = "../resource/trump-speeches/speech_" + str(i) + ".txt"
         file = open(file_name, "r")
         # skips the title
         file.readline()
-        # creating a object of the Preprocessing class
-        pre_processing = Preprocessing()
-        # a stop-list is assigned to attribute of class
-        pre_processing.stop_word = stop_list
-        # a string of file was passed to tokenizer that returns a list of tokens
-        tokens = pre_processing.tokenizer(file.read())
-        # a set of lemma is returned as {lemma: tf}
-        lemma_set = pre_processing.lemmatizer(tokens)
+
+        # lemma_set = {lemma: tf}
+        lemma_set = pre_processing("../resource/stopword-list.txt", file.read())
+
         # copy() deep copies the set into lemma list
         _lemmas.append(lemma_set.copy())
+
         # since tokens are created, file is now closed
         file.close()
-        # list of tokens is unusable, so it is cleared
-        tokens.clear()
+
         # since a deep-copy of lemma_set was appended and not its address was passed
         # this list can be cleared without effecting the one in lemmas
         lemma_set.clear()
-        # lemma[i] gives a set for i-th doc and keys() gives lemmas in the set
-        for lem in _lemmas[i].keys():
-            try:
-                # a set was used because of its speed due to hashing which costs O(1)
-                # otherwise a list would cost O(n) in searching the lemma from bag-of-words
-                # because to restrict the repetitive lemmas from entire corpus
-                _bag_of_words[lem] = 0
-            except KeyError:
-                # if lemma exists, it would throw KeyError and would do nothing
-                pass
+
+        # _lemmas[i] gives a lemma_set for i-th doc
+        _bag_of_words = prepare_bag_of_words(_lemmas[i], _bag_of_words)
 
     print(datetime.now().strftime("%H:%M:%S") + ": pre-processing completed")
 
