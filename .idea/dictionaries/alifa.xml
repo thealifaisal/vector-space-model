@@ -1,6 +1,7 @@
 <component name="ProjectDictionaryState">
   <dictionary name="alifa">
     <words>
+      <w>lemmatization</w>
       <w>lemmatizer</w>
       <w>nltk</w>
       <w>preprocessing</w>
