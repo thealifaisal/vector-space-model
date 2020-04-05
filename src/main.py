@@ -95,13 +95,14 @@ def process_corpora():
     return _bag_of_words, _lemmas
 
 
-def calculate_tf_idf(_bag_of_words, _len_of_bag_of_words, _lemmas, _sheet):
+def calculate_doc_score(_bag_of_words, _len_of_bag_of_words, _lemmas, _sheet):
 
     print(datetime.now().strftime("%H:%M:%S") + ": starting tf-idf calculations...")
 
     for i in range(2, _len_of_bag_of_words + 2):
         word = _sheet.cell(i, 1).value = _bag_of_words[i - 2]
         df = 0
+
         for doc_id in range(0, 56):
             tf = _lemmas[doc_id].get(word)
             if tf is None:
@@ -110,9 +111,11 @@ def calculate_tf_idf(_bag_of_words, _len_of_bag_of_words, _lemmas, _sheet):
             else:
                 _sheet.cell(i, doc_id + 2).value = tf
                 df += 1
+
         _sheet.cell(i, 59).value = df
         idf = float(format(math.log10(56 / df), '.5f'))
         _sheet.cell(i, 60).value = idf
+
         for doc_id in range(0, 56):
             tf = float(_sheet.cell(i, doc_id + 2).value)
             value = float(format(tf * idf, '.5f'))
@@ -170,7 +173,7 @@ def create_sheet(_sheet):
     # so that keys() would not be called multiple times in the calculate_tf_idf
     bag_of_words = list(bag_of_words.keys())
 
-    _sheet = calculate_tf_idf(bag_of_words, len_of_bag_of_words, lemmas, _sheet)
+    _sheet = calculate_doc_score(bag_of_words, len_of_bag_of_words, lemmas, _sheet)
 
     # since bag-of-words, and lemmas was written to disk
     # they are not needed in memory so they are cleared
