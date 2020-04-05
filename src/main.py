@@ -236,7 +236,7 @@ if __name__ == "__main__":
     # and uses the 'cache' technique to store the calculated doc vectors
     # and bag-of-words in a file named '../out/tf-idf.xlsx'
 
-    # when no cache is found, the calculations take approx. 11 seconds of which
+    # when no cache is found, in one run the calculations take approx. 11 seconds of which
     # 5 seconds is to pre-process the corpora for tokens, lemma, bag-of-words formation, and
     # 6 seconds to calculate tf-idf score for doc vectors
 
