@@ -1,17 +1,23 @@
+import math
+from datetime import datetime
+
 import nltk
 import openpyxl
-import math
-import threading
-from datetime import datetime
+
 from src.pre_processing import Preprocessing
+
+
+def import_stop_list(path):
+    # a stop-word file is opened and parsed to be saved as a list
+    stop_file = open(path, "r")
+    stop_list = stop_file.read().split("\n")
+    stop_file.close()
+    return stop_list
 
 
 def process_corpora():
 
-    # a stop-word file is opened and parsed to be saved as a list
-    stop_file = open("../resource/stopword-list.txt", "r")
-    stop_list = stop_file.read().split("\n")
-    stop_file.close()
+    stop_list = import_stop_list("../resource/stopword-list.txt")
 
     # two important data-structures are initialized
     _bag_of_words = {}
@@ -31,12 +37,12 @@ def process_corpora():
         pre_processing.stop_word = stop_list
         # a string of file was passed to tokenizer that returns a list of tokens
         tokens = pre_processing.tokenizer(file.read())
-        # since tokens are created, file is now closed
-        file.close()
         # a set of lemma is returned as {lemma: tf}
         lemma_set = pre_processing.lemmatizer(tokens)
         # copy() deep copies the set into lemma list
         _lemmas.append(lemma_set.copy())
+        # since tokens are created, file is now closed
+        file.close()
         # list of tokens is unusable, so it is cleared
         tokens.clear()
         # since a deep-copy of lemma_set was appended and not its address was passed
@@ -68,6 +74,7 @@ def calculate_tf_idf(_bag_of_words, _len_of_bag_of_words, _lemmas, _sheet):
         for doc_id in range(0, 56):
             tf = _lemmas[doc_id].get(word)
             if tf is None:
+                # when doc not have word, tf will be 0
                 _sheet.cell(i, doc_id + 2).value = 0
             else:
                 _sheet.cell(i, doc_id + 2).value = tf
