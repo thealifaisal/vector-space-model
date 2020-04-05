@@ -1,0 +1,37 @@
+------------------ when cache not found ------------------
+
+03:56:33: appending nltk_data path to nltk`data-path...
+03:56:33: checking cache...
+03:56:33: cache not found
+03:56:33: preparing cache...
+03:56:33: initiating pre-processing of documents...
+03:56:37: documents pre-processing completed
+03:56:37: length of bag-of-words: 6033
+03:56:37: initiating document tf-idf calculations...
+03:56:41: completed document tf-idf calculations
+03:56:41: cache prepared
+03:56:41: cleared not needed memory
+03:56:49: cache saved to disk
+
+
+calculations took 8 seconds of which:
+4 seconds for documents preprocessing
+4 seconds for documents tf-idf calculations
+
+
+------------------ when cache found ------------------
+
+03:59:30: appending nltk_data path to nltk`data-path...
+03:59:30: checking cache...
+03:59:35: cache found and loaded
+03:59:35: length of bag-of-words = 6033
+
+
+cache loading took 5 seconds without extra CPU utilization
+
+Hence, cache usage gives a performance improvement of 3 seconds in this run
+
+In a different run, 11 seconds for overall calculations and 6 seconds for cache loading
+hence a performance improvement of 5 seconds.
+
+We can say that with this size of data, we can expect 3 to 5 seconds improvements when cache is used.
