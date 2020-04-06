@@ -46,7 +46,7 @@ class VSM:
                 value = float(format(tf * idf, ".5f"))
                 _doc_sheet.cell(i, 58).value = value
             else:
-                _doc_sheet.cell(i, 58).value = 1
+                _doc_sheet.cell(i, 58).value = 0
 
         print(datetime.now().strftime("%H:%M:%S") + ": completed query tf-idf calculations...")
 
@@ -258,20 +258,29 @@ class VSM:
         print(datetime.now().strftime("%H:%M:%S") + ": creating result set...")
 
         _len_of_bag_of_words = _doc_sheet.max_row - 1
-
         _result_set = {}
 
         for doc_id in range(0, 56):
+
             scalar_product = 0
+            norm_of_query_vector = 0.0
+            norm_of_doc_vector = 0.0
+
             for i in range(2, _len_of_bag_of_words + 2):
                 doc_tf_idf = float(_doc_sheet.cell(i, doc_id + 2).value)
                 query_tf_idf = float(_doc_sheet.cell(i, 58).value)
                 scalar_product += float(format(doc_tf_idf * query_tf_idf, ".5f"))
+                norm_of_doc_vector += float(format(math.pow(doc_tf_idf, 2), '.5f'))
+                norm_of_query_vector += float(format(math.pow(query_tf_idf, 2), '.5f'))
+
+            norm_of_doc_vector = math.sqrt(norm_of_doc_vector)
+            norm_of_query_vector = math.sqrt(norm_of_query_vector)
+
             # angle = cos0 = d . q / |d| . |q|
 
-            angle = float(format(scalar_product / (_len_of_bag_of_words * 2), '.5f'))
+            angle = float(format(scalar_product / (norm_of_query_vector * norm_of_doc_vector), '.5f'))
             # angle = float(format(math.cos(product), ".5f"))
-            if angle < alpha:
+            if angle > alpha:
                 _result_set[doc_id] = angle
 
         print(datetime.now().strftime("%H:%M:%S") + ": result set created")
@@ -287,15 +296,16 @@ class VSM:
 
         file.write("\nlength: " + str(len(_result_set)) + "\n")
 
-        _result_set = sorted(_result_set.items(), key=operator.itemgetter(1))
+        ranked_docs = []
+        while bool(_result_set):
+            ranked_docs.append(max(_result_set, key=_result_set.get))
+            _result_set.pop(max(_result_set, key=_result_set.get))
 
-        for sub_list in _result_set:
-            file.write(str(sub_list) + ", ")
+        for doc in ranked_docs:
+            file.write(str(doc) + ", ")
 
         file.close()
-
         print(datetime.now().strftime("%H:%M:%S") + ": result-set written to " + _path)
-
         return
 
     def import_nltk_data(self, path):
