@@ -19,6 +19,12 @@ class Preprocessing:
             elif ord(file_buffer[i]) in range(97, 123):  # ASCII[97-122] => [a-z]
                 string += file_buffer[i]
                 c += 1
+                # when 'refugeeExcept' occurs
+                if ord(file_buffer[i+1]) in range(65, 91):
+                    if string not in self.stop_word:
+                        tokens_L.append(string)
+                    string = ""
+                    c = 0  # reset the counter of chars when end of word
             else:
                 if file_buffer[i] in [" ", ":", ",", "!", "?", "-"] and c != 0:  # indicates end of word
                     if string not in self.stop_word:
