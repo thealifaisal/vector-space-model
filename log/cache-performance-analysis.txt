@@ -1,0 +1,69 @@
+------------------ background ------------------
+
+this search-engine is based on vector-space-model 
+and uses the 'cache' technique to store the calculated doc vectors
+and bag-of-words in a file named '../out/tf-idf.xlsx'
+
+------------------ execution time analysis ------------------
+
+Assumptions: 
+
+	1: CPU = 3.4 Ghz Base-Clock * 4
+	2: RAM = 8 GB
+
+------------------ when cache not found ------------------
+
+	12:07:44: appending nltk_data path to nltk`data-path...
+	12:07:44: checking cache...
+	12:07:44: cache not found
+	12:07:44: preparing cache...
+	12:07:44: initiating pre-processing of documents...
+	12:07:49: documents pre-processing completed
+	12:07:49: length of bag-of-words: 6033
+	12:07:49: initiating document tf-idf calculations...
+	12:07:52: completed document tf-idf calculations
+	12:07:52: cache prepared
+	12:07:52: cleared not needed memory
+	12:08:00: cache saved to disk
+
+
+calculations took 8 seconds of which:
+5 seconds for documents preprocessing
+3 seconds for documents tf-idf calculations
+
+------------------ when cache found ------------------
+
+a) loading the workbook/cache in read and write mode
+
+	12:09:55: appending nltk_data path to nltk`data-path...
+	12:09:55: checking cache...
+	12:10:00: cache found and loaded
+	12:10:00: length of bag-of-words = 6033
+
+
+cache loading took 5 seconds without extra CPU utilization.
+Hence, cache usage gives a performance improvement of 3 seconds.
+
+b) loading the workbook/cache in read-only mode
+
+	12:11:36: appending nltk_data path to nltk`data-path...
+	12:11:36: checking cache...
+	12:11:36: cache found and loaded
+	12:11:36: length of bag-of-words = 6033
+
+cache loading took less than 1 second without extra CPU utilization.
+Hence, cache usage gives a performance improvement of 7+ seconds.
+
+------------------ conclusion ------------------
+
+Hence, we will load the cache in read-only mode to achieve the maximum performance.
+
+But, we cannot utilize the cache for writing query scores. 
+So we will create a temp workbook to store calculated results.
+This workbook will not be saved to disk as writing to disk takes 9 seconds for 1MB file.
+But this will create another 6000+ rows with 2 columns in the memory.
+
+So achieving 3 seconds improvemnt with no extra memory usage Or 
+achieving 7+ seconds improvemnt with increased memory usage.
+
+Which might be better?

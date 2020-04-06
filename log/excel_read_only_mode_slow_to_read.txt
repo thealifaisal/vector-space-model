@@ -1,0 +1,8 @@
+https://stackoverflow.com/questions/42756266/python-openpyxl-read-excel-too-slow
+
+The problem is related to the extensive use of the cell method in read-only mode. 
+In read-only mode openpyxl reads the relevant worksheet on-demand to reduce memory use low but means 
+that for every lookup the XML will be parsed again. 
+The code you have rewritten forces openpyxl to reparse the file for every cell in every row which is obviously slow. 
+This is also entirely unnecessary because there is an API for row-based access. 
+Just use ws.iter_rows() with the relevant delimiters to get cells you want.
