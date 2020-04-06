@@ -1,37 +1,57 @@
+------------------ execution time analysis ------------------
+
+Assumptions: 
+
+1: CPU = 3.4 Ghz Base-Clock * 4
+2: RAM = 8 GB
+
 ------------------ when cache not found ------------------
 
-03:56:33: appending nltk_data path to nltk`data-path...
-03:56:33: checking cache...
-03:56:33: cache not found
-03:56:33: preparing cache...
-03:56:33: initiating pre-processing of documents...
-03:56:37: documents pre-processing completed
-03:56:37: length of bag-of-words: 6033
-03:56:37: initiating document tf-idf calculations...
-03:56:41: completed document tf-idf calculations
-03:56:41: cache prepared
-03:56:41: cleared not needed memory
-03:56:49: cache saved to disk
+12:07:44: appending nltk_data path to nltk`data-path...
+12:07:44: checking cache...
+12:07:44: cache not found
+12:07:44: preparing cache...
+12:07:44: initiating pre-processing of documents...
+12:07:49: documents pre-processing completed
+12:07:49: length of bag-of-words: 6033
+12:07:49: initiating document tf-idf calculations...
+12:07:52: completed document tf-idf calculations
+12:07:52: cache prepared
+12:07:52: cleared not needed memory
+12:08:00: cache saved to disk
 
 
 calculations took 8 seconds of which:
-4 seconds for documents preprocessing
-4 seconds for documents tf-idf calculations
-
+5 seconds for documents preprocessing
+3 seconds for documents tf-idf calculations
 
 ------------------ when cache found ------------------
 
-03:59:30: appending nltk_data path to nltk`data-path...
-03:59:30: checking cache...
-03:59:35: cache found and loaded
-03:59:35: length of bag-of-words = 6033
+a) loading the workbook/cache in read and write mode
+
+	12:09:55: appending nltk_data path to nltk`data-path...
+	12:09:55: checking cache...
+	12:10:00: cache found and loaded
+	12:10:00: length of bag-of-words = 6033
 
 
 cache loading took 5 seconds without extra CPU utilization
+Hence, cache usage gives a performance improvement of 3 seconds
 
-Hence, cache usage gives a performance improvement of 3 seconds in this run
+b) loading the workbook/cache in read-only mode
 
-In a different run, 11 seconds for overall calculations and 6 seconds for cache loading
-hence a performance improvement of 5 seconds.
+	12:11:36: appending nltk_data path to nltk`data-path...
+	12:11:36: checking cache...
+	12:11:36: cache found and loaded
+	12:11:36: length of bag-of-words = 6033
 
-We can say that with this size of data, we can expect 3 to 5 seconds improvements when cache is used.
+cache loading took less than 1 second without extra CPU utilization
+Hence, cache usage gives a performance improvement of 7+ seconds
+
+------------------ conclusion ------------------
+
+Hence, we will load the cache in read-only mode to achieve the maximum performance.
+
+But, we cannot utilize the cache for writing query scores. 
+So we will create a temp workbook to store calculated results.
+This workbook will not be saved to disk as writing to disk takes 10 seconds for 1MB file.
