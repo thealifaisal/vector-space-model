@@ -2,11 +2,12 @@ from datetime import datetime
 import openpyxl
 from src.VSM import VSM
 
-# global object
-vsm = VSM()
 
 # ---------------------------------- main code ----------------------------------
 if __name__ == "__main__":
+
+    # object of vsm class created that has methods for document and query processing
+    vsm = VSM()
 
     # this search-engine is based on vector-space-model
 
@@ -32,7 +33,11 @@ if __name__ == "__main__":
     # imports the data required for lemmatization
     vsm.import_nltk_data("../resource/nltk_data/")
 
+    # 'workbook' is excel file object that contains a sheet which has bag-of-words
+    # doc vectors, df, idf, and query vectors
     workbook = 0
+    # 'len_of_bag_of_words' has the total number of unique words from corpora
+    # e.g: 6015 in my case
     len_of_bag_of_words = 0
 
     print(datetime.now().strftime("%H:%M:%S") + ": checking cache...")
@@ -56,9 +61,10 @@ if __name__ == "__main__":
         workbook.save("../out/tf-idf.xlsx")
         print(datetime.now().strftime("%H:%M:%S") + ": cache saved to disk")
 
-    # takes query from user as string
-    query = input(datetime.now().strftime("%H:%M:%S") + "Search: ") + "."
-    # query = "biggest plane wanted hour "
+    # takes query from user as string appends a period to the end of query for tokenizer handling
+    # query = input(datetime.now().strftime("%H:%M:%S") + "Search: ") + "."
+    query = "biggest plane wanted hour "
+    # alpha = float(input("enter alpha: "))
     alpha = 0.0005
 
     vsm.update_doc_sheet(doc_sheet, query)
