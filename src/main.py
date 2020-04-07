@@ -63,13 +63,13 @@ if __name__ == "__main__":
 
     # takes query from user as string appends a period to the end of query for tokenizer handling
     # query = input(datetime.now().strftime("%H:%M:%S") + "Search: ") + "."
-    query = "muslims "
+    query = "Hillary Clinton "
     # alpha = float(input("enter alpha: "))
     alpha = 0.0005
 
     vsm.update_doc_sheet(doc_sheet, query)
     result_set = vsm.create_result_set(doc_sheet, alpha)
-    vsm.write_result_to_file("../out/result_set.txt", result_set, query)
+    vsm.write_result_to_file("../out/result_set.txt", result_set, query, alpha)
 
     workbook.close()
     print(datetime.now().strftime("%H:%M:%S") + ": cache-file closed")

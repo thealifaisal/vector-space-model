@@ -340,13 +340,14 @@ class VSM:
 
         return _result_set
 
-    def write_result_to_file(self, _path, _result_set, _query):
+    def write_result_to_file(self, _path, _result_set, _query, _alpha):
 
         print(datetime.now().strftime("%H:%M:%S") + ": writing result-set to " + _path + "...")
 
         file = open(_path, "a+")
-        file.write("\nquery: " + _query + "\n")
-        file.write("\nlength: " + str(len(_result_set)) + "\n")
+        file.write("\nQuery: " + _query + "\n")
+        file.write("\nLength: " + str(len(_result_set)) + "\n")
+        file.write("\nAlpha: " + str(_alpha) + "\n")
 
         # sorting the result-set according to angles in descending
         # source: https://www.w3resource.com/python-exercises/dictionary/python-data-type-dictionary-exercise-1.php
