@@ -5,10 +5,10 @@ is then passed to nltk's lemmatizer that returns a list of lemmas.
 A unique list of lemmas will be created from the corpus which is called bag of words.
 Length of bag of words will be saved.
 
-The lemmas from the list will be written to an Excel file at column 0.
+The lemmas from the list will be written to an Excel file at column 1.
 Now 56 columns for documents (tf), 1 column for a query (tf), 1 column for Document Frequency (df), 1
-column for Inverse Document Frequency (idf), 56 columns for document's tf*idf, 1 column for query's
-tfxidf will be created.
+column for Inverse Document Frequency (idf), and re-iterate over the 56 columns to multiply tf and idf
+to the document columns. 
 
 Now again read each document one by one, for specific cell(token,doc-col) write the tf of that token.
 This can be done by creating a set structure with key as a token and value as it’s count. Once the
