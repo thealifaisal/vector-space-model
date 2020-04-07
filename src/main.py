@@ -8,6 +8,7 @@ if __name__ == "__main__":
 
     # object of vsm class created that has methods for document and query processing
     vsm = VSM()
+    vsm.stopword_file_path = "../resource/stopword-list.txt"
 
     # search engine uses the 'cache' technique to store the calculated doc vectors
     # and bag-of-words in a file named '../out/tf-idf.xlsx'

@@ -12,6 +12,11 @@ class VSM:
 
     stopword_file_path = ""
 
+    # constructor
+    def __init__(self):
+        self.stopword_file_path = ""
+        return
+
     def import_stop_list(self, path):
         # a stop-word file is opened and parsed to be saved as a list
         # when path is not empty
@@ -205,7 +210,7 @@ class VSM:
             file.readline()
 
             # lemma_set = {lemma: tf, ...}
-            lemma_set = self.pre_processing("../resource/stopword-list.txt", file.read())
+            lemma_set = self.pre_processing(self.stopword_file_path, file.read())
 
             # copy() deep copies the set into lemma list
             _lemmas.append(lemma_set.copy())
