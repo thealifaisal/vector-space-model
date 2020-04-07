@@ -4,7 +4,7 @@ from datetime import datetime
 import nltk
 import openpyxl
 
-import operator
+import operator     # fro sorting the result-set
 from src.pre_processing import Preprocessing
 
 
@@ -290,30 +290,50 @@ class VSM:
 
         print(datetime.now().strftime("%H:%M:%S") + ": creating result set...")
 
+        # 1st row has col headers, so subtracting 1 from total no of rows
         _len_of_bag_of_words = _doc_sheet.max_row - 1
+        # creating a set for results where,
+        # keys would be doc-id
+        # values would be angle
         _result_set = {}
 
+        # since a query vector is to multiplied with every doc to find angle
+        # a loop is run corpora-size:56 times
         for doc_id in range(0, 56):
 
+            # 'scalar_product' will hold the sum of product of every dimension two vectors
             scalar_product = 0
+            # 'norm_of_query_vector' will hold the sum of square of every dimension of query-vector
             norm_of_query_vector = 0.0
+            # 'norm_of_doc_vector' will hold the sum of square of every dimension of doc-vector
             norm_of_doc_vector = 0.0
 
+            # doc cols start from 2nd column
+
+            # iterates over every dimension of vectors i.e: length of bag-of-words times
             for i in range(2, _len_of_bag_of_words + 2):
+                # doc tf-idf is accessed from doc-sheet from i-th dimension at doc-id col
                 doc_tf_idf = float(_doc_sheet.cell(i, doc_id + 2).value)
+                # query tf-idf is accessed from doc-sheet from i-th dimension at query-col
                 query_tf_idf = float(_doc_sheet.cell(i, 58).value)
+                # both the tf-idf`s are multiplied and rounded to 5 decimal places and added to scalar_product
                 scalar_product += float(format(doc_tf_idf * query_tf_idf, ".5f"))
+                # every dimension is squared and added to sum
                 norm_of_doc_vector += float(format(math.pow(doc_tf_idf, 2), '.5f'))
                 norm_of_query_vector += float(format(math.pow(query_tf_idf, 2), '.5f'))
 
-            norm_of_doc_vector = math.sqrt(norm_of_doc_vector)
-            norm_of_query_vector = math.sqrt(norm_of_query_vector)
+            # sqrt is applied on the sum of squares to find the norm of vectors
+            norm_of_doc_vector = math.sqrt(norm_of_doc_vector)      # => |d|
+            norm_of_query_vector = math.sqrt(norm_of_query_vector)  # => |q|
 
+            # scalar_product => d . q
             # angle = cos0 = d . q / |d| . |q|
 
             angle = float(format(scalar_product / (norm_of_query_vector * norm_of_doc_vector), '.5f'))
-            # angle = float(format(math.cos(product), ".5f"))
+
+            # if angle is closer to cos(0): 1 and greater than alpha then doc is relevant
             if angle > alpha:
+                # doc as key is added to result-set with angle as its value
                 _result_set[doc_id] = angle
 
         print(datetime.now().strftime("%H:%M:%S") + ": result set created")
@@ -325,17 +345,20 @@ class VSM:
         print(datetime.now().strftime("%H:%M:%S") + ": writing result-set to " + _path + "...")
 
         file = open(_path, "a+")
-        file.write("\n\nquery: " + _query + "\n")
-
+        file.write("\nquery: " + _query + "\n")
         file.write("\nlength: " + str(len(_result_set)) + "\n")
 
-        ranked_docs = []
-        while bool(_result_set):
-            ranked_docs.append(max(_result_set, key=_result_set.get))
-            _result_set.pop(max(_result_set, key=_result_set.get))
+        # sorting the result-set according to angles in descending
+        # source: https://www.w3resource.com/python-exercises/dictionary/python-data-type-dictionary-exercise-1.php
+        _result_set = dict(sorted(_result_set.items(), key=operator.itemgetter(1), reverse=True))
 
-        for doc in ranked_docs:
+        file.write("\nRelevant Documents: ")
+
+        # accessing each doc and writing to file
+        for doc in _result_set.keys():
             file.write(str(doc) + ", ")
+
+        file.write("\n\n***************************************************\n")
 
         file.close()
         print(datetime.now().strftime("%H:%M:%S") + ": result-set written to " + _path)

@@ -63,7 +63,7 @@ if __name__ == "__main__":
 
     # takes query from user as string appends a period to the end of query for tokenizer handling
     # query = input(datetime.now().strftime("%H:%M:%S") + "Search: ") + "."
-    query = "biggest plane wanted hour "
+    query = "muslims "
     # alpha = float(input("enter alpha: "))
     alpha = 0.0005
 
