@@ -13,57 +13,59 @@ Assumptions:
 
 ------------------ when cache not found ------------------
 
-	12:07:44: appending nltk_data path to nltk`data-path...
-	12:07:44: checking cache...
-	12:07:44: cache not found
-	12:07:44: preparing cache...
-	12:07:44: initiating pre-processing of documents...
-	12:07:49: documents pre-processing completed
-	12:07:49: length of bag-of-words: 6033
-	12:07:49: initiating document tf-idf calculations...
-	12:07:52: completed document tf-idf calculations
-	12:07:52: cache prepared
-	12:07:52: cleared not needed memory
-	12:08:00: cache saved to disk
+	02:07:26: appending nltk_data path to nltk`data-path...
+	02:07:26: checking cache...
+	02:07:26: cache not found
+	02:07:26: preparing cache...
+	02:07:26: initiating pre-processing of documents...
+	02:07:31: documents pre-processing completed
+	02:07:31: length of bag-of-words: 6015
+	02:07:31: initiating document tf-idf calculations...
+	02:07:34: completed document tf-idf calculations
+	02:07:34: cache prepared
+	02:07:34: cleared not needed memory
+	02:07:42: cache saved to disk
+	02:07:42: initiating pre-processing of query...
+	02:07:42: query pre-processing completed
+	02:07:42: query lemma-set > {'biggest': 1, 'plane': 1, 'wanted': 1, 'hour': 1}
+	02:07:42: initiating query tf-idf calculations...
+	02:07:42: completed query tf-idf calculations...
+	02:07:42: creating result set...
+	02:07:44: result set created
+	02:07:44: writing result-set to ../out/result_set.txt...
+	02:07:44: result-set written to ../out/result_set.txt
+	02:07:44: cache-file closed
+	02:07:44: exit
 
 
 calculations took 8 seconds of which:
 5 seconds for documents preprocessing
 3 seconds for documents tf-idf calculations
 
+the whole program with query executed in 18 seconds.
+
 ------------------ when cache found ------------------
 
 a) loading the workbook/cache in read and write mode
 
-	12:09:55: appending nltk_data path to nltk`data-path...
-	12:09:55: checking cache...
-	12:10:00: cache found and loaded
-	12:10:00: length of bag-of-words = 6033
+	02:06:02: appending nltk_data path to nltk`data-path...
+	02:06:02: checking cache...
+	02:06:07: cache found and loaded
+	02:06:07: length of bag-of-words = 6015
+	02:06:07: initiating pre-processing of query...
+	02:06:10: query pre-processing completed
+	02:06:10: query lemma-set > {'biggest': 1, 'plane': 1, 'wanted': 1, 'hour': 1}
+	02:06:10: initiating query tf-idf calculations...
+	02:06:10: completed query tf-idf calculations...
+	02:06:10: creating result set...
+	02:06:12: result set created
+	02:06:12: writing result-set to ../out/result_set.txt...
+	02:06:12: result-set written to ../out/result_set.txt
+	02:06:12: cache-file closed
+	02:06:12: exit
 
 
 cache loading took 5 seconds without extra CPU utilization.
-Hence, cache usage gives a performance improvement of 3 seconds.
+the whole program with query executed in 10 seconds.
 
-b) loading the workbook/cache in read-only mode
-
-	12:11:36: appending nltk_data path to nltk`data-path...
-	12:11:36: checking cache...
-	12:11:36: cache found and loaded
-	12:11:36: length of bag-of-words = 6033
-
-cache loading took less than 1 second without extra CPU utilization.
-Hence, cache usage gives a performance improvement of 7+ seconds.
-
------------------- conclusion ------------------
-
-Hence, we will load the cache in read-only mode to achieve the maximum performance.
-
-But, we cannot utilize the cache for writing query scores. 
-So we will create a temp workbook to store calculated results.
-This workbook will not be saved to disk as writing to disk takes 9 seconds for 1MB file.
-But this will create another 6000+ rows with 2 columns in the memory.
-
-So achieving 3 seconds improvemnt with no extra memory usage Or 
-achieving 7+ seconds improvemnt with increased memory usage.
-
-Which might be better?
+Hence, cache usage gives a performance improvement of 8 seconds.
