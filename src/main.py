@@ -62,10 +62,10 @@ if __name__ == "__main__":
         print(datetime.now().strftime("%H:%M:%S") + ": cache saved to disk")
 
     # takes query from user as string appends a period to the end of query for tokenizer handling
-    # query = input(datetime.now().strftime("%H:%M:%S") + "Search: ") + "."
-    query = "Hillary Clinton "
-    # alpha = float(input("enter alpha: "))
-    alpha = 0.0005
+    query = input(datetime.now().strftime("%H:%M:%S") + "search: ") + "."
+    # query = "muslim "
+    alpha = float(input("enter alpha: "))
+    # alpha = 0.0005
 
     vsm.update_doc_sheet(doc_sheet, query)
     result_set = vsm.create_result_set(doc_sheet, alpha)
