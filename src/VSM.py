@@ -10,19 +10,36 @@ from src.pre_processing import Preprocessing
 
 class VSM:
 
+    stopword_file_path = ""
+
     def import_stop_list(self, path):
         # a stop-word file is opened and parsed to be saved as a list
-        stop_file = open(path, "r")
-        stop_list = stop_file.read().split("\n")
-        stop_file.close()
+        # when path is not empty
+        if path != "":
+            try:
+                # try opening a file
+                stop_file = open(path, "r")
+                # when opens, parse the file and save stop-words to list
+                stop_list = stop_file.read().split("\n")
+                # and close the file
+                stop_file.close()
+            except FileNotFoundError:
+                # if file not opens, an empty list is returned
+                stop_list = []
+        else:
+            # if path is empty, an empty list is returned
+            stop_list = []
+
+        # returning a list
         return stop_list
 
     def process_query(self, _query):
 
         print(datetime.now().strftime("%H:%M:%S") + ": initiating pre-processing of query...")
 
-        # lemma_set = {lemma-1: tf, lemma-2: tf, ...}
-        lemma_set = self.pre_processing("../resource/stopword-list.txt", _query)
+        # sends a query and path to stop-file
+        # receives a lemma_set = {lemma-1: tf, lemma-2: tf, ...}
+        lemma_set = self.pre_processing(self.stopword_file_path, _query)
 
         print(datetime.now().strftime("%H:%M:%S") + ": query pre-processing completed")
         print(datetime.now().strftime("%H:%M:%S") + ": query lemma-set > " + str(lemma_set))
@@ -31,31 +48,47 @@ class VSM:
 
     def calculate_query_score(self, _doc_sheet, _lemma_set):
 
+        # receives a sheet with doc-vectors filled with tf-idf, and an empty query-vector
+        # also receives a lemma-set for query => {lemma-1: tf, lemma-2: tf, ...}
         print(datetime.now().strftime("%H:%M:%S") + ": initiating query tf-idf calculations...")
 
+        # 1st row has col headers, so subtracting 1 from total no of rows
         _len_of_bag_of_words = _doc_sheet.max_row - 1
 
+        # loop multiplies idf-col with query-col in sheet for every word in bag
         for i in range(2, _len_of_bag_of_words + 2):
 
+            # accesses the word from bag at i-th row and 1st col
             word = _doc_sheet.cell(i, 1).value
 
+            # when a query has that word from bag
             if _lemma_set.__contains__(word):
+                # then term-freq is accessed from query-lemma-set
                 tf = _lemma_set.get(word)
+                # tf is assigned to i-th row at query-col (58)
                 _doc_sheet.cell(i, 58).value = tf
+                # accesses the idf from i-th row at idf-col (60)
                 idf = float(_doc_sheet.cell(i, 60).value)
+                # multiplies tf and idf
                 value = float(format(tf * idf, ".5f"))
+                # assigns the product to query-column at i-th row
                 _doc_sheet.cell(i, 58).value = value
             else:
+                # when a query does not have that word from bag
+                # tf is assigned 0 to i-th row at query-column
+                # multiplying idf would also give 0 because tf is zero
                 _doc_sheet.cell(i, 58).value = 0
 
         print(datetime.now().strftime("%H:%M:%S") + ": completed query tf-idf calculations...")
-
         return
 
     def update_doc_sheet(self, _doc_sheet, _query):
 
+        # a lemma-set is returned from query => {lemma-1: tf, lemma-2: tf, ...}
         _lemma_set = self.process_query(_query)
+        # sets query-column in doc_sheet with tf-idf scores
         self.calculate_query_score(_doc_sheet, _lemma_set)
+        # lemma-set is not needed in memory since query vector is written to doc_sheet
         _lemma_set.clear()
 
         return
