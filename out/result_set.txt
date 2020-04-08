@@ -9,7 +9,7 @@ Relevant Documents: 3, 4, 9, 2, 20, 7, 6,
 
 ***************************************************
 
-Query: muslims (without lemmatization)
+Query: muslims (without lemmatization) - correct according to result-set provided
 
 Length: 2
 
@@ -29,7 +29,7 @@ Relevant Documents: 31, 36, 44, 8,
 
 ***************************************************
 
-Query: developments praised (without lemmatization)
+Query: developments praised (without lemmatization) - correct according to result-set provided
 
 Length: 3
 
@@ -39,7 +39,7 @@ Relevant Documents: 36, 44, 8,
 
 ***************************************************
 
-Query: no patience for injustice (with lemmatization)
+Query: no patience for injustice (with lemmatization) - correct according to result-set provided
 
 Length: 5
 
@@ -49,7 +49,7 @@ Relevant Documents: 11, 7, 16, 22, 15,
 
 ***************************************************
 
-Query: no patience for injustice (without lemmatization)
+Query: no patience for injustice (without lemmatization) - correct according to result-set provided
 
 Length: 5
 
@@ -69,7 +69,7 @@ Relevant Documents: 0, 19, 35, 8, 52, 34, 24, 11, 51, 9,
 
 ***************************************************
 
-Query: biggest plane wanted hour (without lemmatization)
+Query: biggest plane wanted hour (without lemmatization) - correct according to result-set provided but replaced doc-1 by doc-0
 
 Length: 3
 
@@ -79,7 +79,7 @@ Relevant Documents: 0, 52, 19,
 
 ***************************************************
 
-Query: Hillary Clinton (with lemmatization)
+Query: Hillary Clinton (with lemmatization) - correct according to result-set provided
 
 Length: 52
 
@@ -89,7 +89,7 @@ Relevant Documents: 36, 4, 35, 33, 34, 20, 29, 21, 12, 16, 41, 40, 14, 42, 46, 1
 
 ***************************************************
 
-Query: Hillary Clinton (without lemmatization)
+Query: Hillary Clinton (without lemmatization) - correct according to result-set provided
 
 Length: 52
 

@@ -24,10 +24,10 @@ if __name__ == "__main__":
     vsm.import_nltk_data("../resource/nltk_data/")
 
     # 'workbook' is excel file object that contains a sheet which has bag-of-words
-    # doc vectors, df, idf, and query vectors
+    # doc vectors, df, idf, and query vector
     workbook = 0
     # 'len_of_bag_of_words' has the total number of unique words from corpora
-    # e.g: 6015 in my case
+    # e.g: 6008 in my case
     len_of_bag_of_words = 0
 
     print(datetime.now().strftime("%H:%M:%S") + ": checking cache...")
@@ -52,8 +52,8 @@ if __name__ == "__main__":
         print(datetime.now().strftime("%H:%M:%S") + ": cache saved to disk")
 
     while True:
-        # takes query from user as string appends a period to the end of query for tokenizer handling
-        query = input(datetime.now().strftime("%H:%M:%S") + ": search: ") + " "
+        # takes query from user as string appends a space to the end of query for tokenizer handling
+        query = input(datetime.now().strftime("%H:%M:%S") + ": search (0: exit): ") + " "
         # query = "pakistan afghanistan "
 
         if query == "0 ":
@@ -62,7 +62,9 @@ if __name__ == "__main__":
         alpha = float(input(datetime.now().strftime("%H:%M:%S") + ": enter alpha: "))
         # alpha = 0.0005
 
+        # fills the query vector with tf-idf values
         vsm.update_doc_sheet(doc_sheet, query)
+        # ret result-set as {doc-id: angle, doc-id: angle, ...}
         result_set = vsm.create_result_set(doc_sheet, alpha)
         vsm.write_result_to_file("../out/result_set.txt", result_set, query, alpha)
     # loop end
