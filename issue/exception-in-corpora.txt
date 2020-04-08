@@ -1,0 +1,14 @@
+exception: 1
+
+example: refugeeExcept
+
+two words joined toghether
+
+-------------------------------------
+
+exception: 2
+
+example: trump—where
+
+since large dash is not available in keyboard and not a ascii, it cannot detected. We have to explicitly
+look for it.
