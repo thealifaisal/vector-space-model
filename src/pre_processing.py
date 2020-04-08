@@ -81,8 +81,8 @@ class Preprocessing:
         lemma_set = {}
         wnl = WordNetLemmatizer()  # imported from nltk library
         for tk in tokens_list:  # pass token from token list in stem function and add stems in list
-            lemma = wnl.lemmatize(tk)
-            # lemma = tk
+            # lemma = wnl.lemmatize(tk)
+            lemma = tk
             if lemma not in lemma_set.keys():
                 lemma_set[lemma] = 1
             else:
