@@ -26,7 +26,7 @@ class Preprocessing:
                     string = ""
                     c = 0  # reset the counter of chars when end of word
             else:
-                if file_buffer[i] in [" ", ":", ",", "!", "?", "-"] and c != 0:  # indicates end of word
+                if file_buffer[i] in [" ", ":", ",", "!", "?", "-", "—"] and c != 0:  # indicates end of word
                     if string not in self.stop_word:
                         tokens_L.append(string)
                     string = ""
@@ -40,7 +40,7 @@ class Preprocessing:
                         string = ""
                     else:
                         # not abbr, e.g:'U.S.A.Something '
-                        if file_buffer[i + 2] not in [" ", ".", ":", ",", "!", "?", "-"]:
+                        if file_buffer[i + 2] not in [" ", ".", ":", ",", "!", "?", "-", "—"]:
                             if string not in self.stop_word:
                                 tokens_L.append(string)
                             string = ""
@@ -53,7 +53,7 @@ class Preprocessing:
                     string = ""
                     c = 0
                     i += 1  # move the ptr to next char possibly [s, re, ..]
-                    while file_buffer[i] not in [" ", ":", ",", "!", "?", "."] and i < file_len:
+                    while file_buffer[i] not in [" ", ":", ",", "!", "?", ".", "—"] and i < file_len:
                         i += 1  # ignore everything after apostrophe until the list above
                 elif file_buffer[i] == "[":  # when this occurs, ignore in the inside of brackets, e.g: [applause]
                     if c != 0:  # this also marks the end of word, so if read char count > 1
