@@ -51,15 +51,21 @@ if __name__ == "__main__":
         workbook.save("../out/tf-idf.xlsx")
         print(datetime.now().strftime("%H:%M:%S") + ": cache saved to disk")
 
-    # takes query from user as string appends a period to the end of query for tokenizer handling
-    # query = input(datetime.now().strftime("%H:%M:%S") + "search: ") + "."
-    query = "biggest plane wanted hour "
-    # alpha = float(input("enter alpha: "))
-    alpha = 0.0005
+    while True:
+        # takes query from user as string appends a period to the end of query for tokenizer handling
+        query = input(datetime.now().strftime("%H:%M:%S") + ": search: ") + " "
+        # query = "pakistan afghanistan "
 
-    vsm.update_doc_sheet(doc_sheet, query)
-    result_set = vsm.create_result_set(doc_sheet, alpha)
-    vsm.write_result_to_file("../out/result_set.txt", result_set, query, alpha)
+        if query == "0 ":
+            break
+
+        alpha = float(input(datetime.now().strftime("%H:%M:%S") + ": enter alpha: "))
+        # alpha = 0.0005
+
+        vsm.update_doc_sheet(doc_sheet, query)
+        result_set = vsm.create_result_set(doc_sheet, alpha)
+        vsm.write_result_to_file("../out/result_set.txt", result_set, query, alpha)
+    # loop end
 
     workbook.close()
     print(datetime.now().strftime("%H:%M:%S") + ": cache-file closed")
