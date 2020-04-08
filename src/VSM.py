@@ -4,7 +4,7 @@ from datetime import datetime
 import nltk
 import openpyxl
 
-import operator     # fro sorting the result-set
+import operator     # for sorting the result-set
 from src.pre_processing import Preprocessing
 
 
@@ -341,6 +341,11 @@ class VSM:
                 # doc as key is added to result-set with angle as its value
                 _result_set[doc_id] = angle
 
+        # sorting the result-set according to angles in descending
+        # source: https://www.w3resource.com/python-exercises/dictionary/python-data-type-dictionary-exercise-1.php
+        # noinspection PyTypeChecker
+        _result_set = dict(sorted(_result_set.items(), key=operator.itemgetter(1), reverse=True))
+
         print(datetime.now().strftime("%H:%M:%S") + ": result set created")
 
         return _result_set
@@ -353,10 +358,6 @@ class VSM:
         file.write("\nQuery: " + _query + "\n")
         file.write("\nLength: " + str(len(_result_set)) + "\n")
         file.write("\nAlpha: " + str(_alpha) + "\n")
-
-        # sorting the result-set according to angles in descending
-        # source: https://www.w3resource.com/python-exercises/dictionary/python-data-type-dictionary-exercise-1.php
-        _result_set = dict(sorted(_result_set.items(), key=operator.itemgetter(1), reverse=True))
 
         file.write("\nRelevant Documents: ")
 
