@@ -11,10 +11,11 @@ class GUI:
     result_box = 0
     search_button = 0
 
-    def setGUI(self, _vsm, _doc_sheet):
+    def __init__(self, vsm, doc_sheet):
+        self.vsm = vsm
+        self.doc_sheet = doc_sheet
 
-        self.vsm = _vsm
-        self.doc_sheet = _doc_sheet
+    def setGUI(self):
 
         _window = tk.Tk()
         _window.title("Vector Space Model")
