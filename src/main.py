@@ -42,11 +42,18 @@ if __name__ == "__main__":
         workbook.save("../out/tf-idf.xlsx")
         print(datetime.now().strftime("%H:%M:%S") + ": cache saved to disk")
 
-    # run_query()
-    gui = GUI()
-    window = gui.setGUI(vsm, doc_sheet)
+    # an object of GUI class is created
+    # doc_sheet which have doc-vectors and bag-of-words is passed to the constructor and vsm object
+    gui = GUI(vsm, doc_sheet)
+    # setGUI creates the GUI and returns a window through which we run the GUI
+    window = gui.setGUI()
+    # this opens the GUI
     window.mainloop()
 
+    # when GUI window is closed the control comes here
+
+    # closes the workbook that ahs doc-sheet
     workbook.close()
+
     print(datetime.now().strftime("%H:%M:%S") + ": cache-file closed")
     print(datetime.now().strftime("%H:%M:%S") + ": exit")
