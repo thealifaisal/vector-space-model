@@ -380,7 +380,9 @@ class VSM:
         file.write("\nRelevant Documents: ")
 
         # accessing each doc and writing to file
-        for doc in _result_set.keys():
+        documents = _result_set.keys()
+
+        for doc in documents:
             file.write(str(doc) + ", ")
 
         file.write("\n\n***************************************************\n")

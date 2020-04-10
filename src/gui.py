@@ -98,7 +98,7 @@ class GUI:
 
             # after creating a result-set
             # returns a result-set as {doc-id: angle, doc-id: angle, ...}
-            _result_set = self.vsm.create_result_set(self.doc_sheet, _alpha)
+            _result_set:dict = self.vsm.create_result_set(self.doc_sheet, _alpha)
 
             # appends a curly-brace to start of result string
             result_string = "{ "
@@ -113,13 +113,16 @@ class GUI:
             result_string += "}"
 
             # writes the result-length in result-box
-            self.result_box.insert(tk.INSERT, "Length: " + str(result_length) + "\n")
+            self.result_box.insert(tk.INSERT, "Length: " + str(result_length) + "\n\n")
 
             # writes the relevant documents in result-box
             self.result_box.insert(tk.INSERT, "Relevant Documents: " + result_string)
 
             # writes the result-set to file
             self.vsm.write_result_to_file("../out/result_set.txt", _result_set, _query, _alpha)
+
+            # clearing result set
+            _result_set.clear()
         else:
             # when query or alpha is empty
             # displays the error in result-box
