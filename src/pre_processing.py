@@ -1,3 +1,10 @@
+# ******************************************
+#
+#   AUTHOR: ALI FAISAL
+#   Github: https://github.com/thealifaisal/
+#
+# ******************************************
+
 from nltk.stem import PorterStemmer, WordNetLemmatizer
 
 

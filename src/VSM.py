@@ -1,10 +1,16 @@
+# ******************************************
+#
+#   AUTHOR: ALI FAISAL
+#   Github: https://github.com/thealifaisal/
+#
+# ******************************************
+
 import math
+import operator  # for sorting the result-set
 from datetime import datetime
 
 import nltk
-import openpyxl
 
-import operator     # for sorting the result-set
 from src.pre_processing import Preprocessing
 
 
