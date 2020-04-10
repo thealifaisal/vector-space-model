@@ -83,15 +83,19 @@ class GUI:
         _query = self.search_box.get()
         _alpha = self.alpha_box.get()
 
-        # if both query and alpha value are entered then proceed
+        not_float = 0
+        try:
+            # converts the alpha-value to float
+            _alpha = float(_alpha)
+        except ValueError:
+            not_float = 1
+
+        # if both query is entered and alpha is float then proceed
         # otherwise display error on result-box
-        if _query != "" and _alpha != "":
+        if _query != "" and not_float == 0:
 
             # appends a space to the end of query for tokenizer handling
             _query += " "
-
-            # converts the alpha-value to float
-            _alpha = float(_alpha)
 
             # fills the query vector with tf-idf values in doc-sheet
             self.vsm.update_doc_sheet(self.doc_sheet, _query)
