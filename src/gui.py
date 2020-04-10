@@ -43,13 +43,13 @@ class GUI:
 
         # creates the search_box where query will be entered
         self.search_box = tk.Entry(_window, width=50, font=("Calibre", 10))
-        self.search_box.insert(0, "")
+        self.search_box.insert(0, "Search Vector Space")
         self.search_box.place(relx=0.412, rely=0.28, anchor=tk.CENTER)
 
         # creates the alpha_box where alpha value will be entered
         self.alpha_box = tk.Spinbox(_window, width=15, font=("Calibre", 10), format="%.4f", increment=0.0001,
                                     from_=0, to=0.9999)
-        self.alpha_box.place(relx=0.716, rely=0.28, anchor=tk.CENTER)
+        self.alpha_box.place(relx=0.714, rely=0.28, anchor=tk.CENTER)
 
         # a search_button is created, on its on-click run_query() method will be executed
         self.search_button = tk.Button(_window, text="Search", width=25, height=1, bg="MediumPurple4", fg="white",
@@ -69,6 +69,8 @@ class GUI:
         self.search_button.bind("<Enter>", self.on_enter)
         # when the mouse leaves the scope of search-button, on_leave method is executed
         self.search_button.bind("<Leave>", self.on_leave)
+        # when the mouse on the search-box, deletes he place holder
+        self.search_box.bind("<Button-1>", self.on_click_search_box)
 
         # returns the window object
         return _window
@@ -141,3 +143,6 @@ class GUI:
 
     def on_leave(self, e):
         self.search_button['background'] = 'MediumPurple4'
+
+    def on_click_search_box(self, e):  # note that you must include the event as an arg, even if you don't use it.
+        self.search_box.delete(0, "end")
