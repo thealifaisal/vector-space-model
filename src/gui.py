@@ -113,10 +113,7 @@ class GUI:
             result_string += "}"
 
             # writes the result-length in result-box
-            self.result_box.insert(tk.INSERT, "Length: " + str(result_length) + "\n\n")
-
-            # writes the alpha in result-box
-            self.result_box.insert(tk.INSERT, "Alpha: " + str(_alpha) + "\n\n")
+            self.result_box.insert(tk.INSERT, "Length: " + str(result_length) + "\n")
 
             # writes the relevant documents in result-box
             self.result_box.insert(tk.INSERT, "Relevant Documents: " + result_string)
