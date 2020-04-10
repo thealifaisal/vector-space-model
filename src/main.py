@@ -1,6 +1,7 @@
 from datetime import datetime
 import openpyxl
 from src.VSM import VSM
+from src.gui import *
 
 
 # ---------------------------------- main code ----------------------------------
@@ -41,34 +42,10 @@ if __name__ == "__main__":
         workbook.save("../out/tf-idf.xlsx")
         print(datetime.now().strftime("%H:%M:%S") + ": cache saved to disk")
 
-    while True:
-
-        print("*********************************")
-        # takes query from user as string appends a space to the end of query for tokenizer handling
-        query = input(datetime.now().strftime("%H:%M:%S") + ": search (0: exit): ") + " "
-        # query = "pakistan afghanistan "
-
-        if query == "0 ":
-            break
-
-        alpha = input(datetime.now().strftime("%H:%M:%S") + ": enter alpha: ")
-        print("*********************************")
-        # alpha = 0.0005
-
-        if query != " " and alpha != "":
-
-            alpha = float(alpha)
-            # alpha = 0.0005
-
-            # fills the query vector with tf-idf values
-            vsm.update_doc_sheet(doc_sheet, query)
-            # ret result-set as {doc-id: angle, doc-id: angle, ...}
-            result_set = vsm.create_result_set(doc_sheet, alpha)
-            vsm.write_result_to_file("../out/result_set.txt", result_set, query, alpha)
-        else:
-            print(datetime.now().strftime("%H:%M:%S") + ": empty query or alpha. try again !!!")
-
-    # loop end
+    # run_query()
+    gui = GUI()
+    window = gui.setGUI(vsm, doc_sheet)
+    window.mainloop()
 
     workbook.close()
     print(datetime.now().strftime("%H:%M:%S") + ": cache-file closed")
