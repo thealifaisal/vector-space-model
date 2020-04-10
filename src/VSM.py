@@ -340,7 +340,10 @@ class VSM:
             # scalar_product => d . q
             # angle = cos0 = d . q / |d| . |q|
 
-            angle = float(format(scalar_product / (norm_of_query_vector * norm_of_doc_vector), '.5f'))
+            try:
+                angle = float(format(scalar_product / (norm_of_query_vector * norm_of_doc_vector), '.5f'))
+            except ZeroDivisionError:
+                angle = -1
 
             # if angle is closer to cos(0): 1 and greater than alpha then doc is relevant
             if angle > alpha:
