@@ -348,6 +348,18 @@ class VSM:
 
         print(datetime.now().strftime("%H:%M:%S") + ": result set created")
 
+        result_string = ""
+        result_length = 0
+
+        for doc in _result_set.keys():
+            result_string += str(doc) + ", "
+            result_length += 1
+
+        print("******************************************\n")
+        print(datetime.now().strftime("%H:%M:%S") + ": result-set length: " + str(result_length))
+        print(datetime.now().strftime("%H:%M:%S") + ": result-set: " + result_string)
+        print("\n******************************************")
+
         return _result_set
 
     def write_result_to_file(self, _path, _result_set, _query, _alpha):

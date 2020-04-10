@@ -80,13 +80,14 @@ class Preprocessing:
     def lemmatizer(self, tokens_list):
         lemma_set = {}
         wnl = WordNetLemmatizer()  # imported from nltk library
-        for tk in tokens_list:  # pass token from token list in stem function and add stems in list
-            # lemma = wnl.lemmatize(tk)
-            lemma = tk
+        for tk in tokens_list:  # for each token in token list
+            lemma = wnl.lemmatize(tk)   # pass token from token list in lemmatizer function
+            # lemma = tk
+            # when lemma not in lemma_set
             if lemma not in lemma_set.keys():
-                lemma_set[lemma] = 1
+                lemma_set[lemma] = 1    # initially tf is 1
             else:
-                count = lemma_set.get(lemma)
-                count += 1
-                lemma_set[lemma] = count
+                count = lemma_set.get(lemma)    # fetch tf of lemma
+                count += 1      # inc tf
+                lemma_set[lemma] = count    # update tf
         return lemma_set  # returns a set of lemmas

@@ -10,16 +10,6 @@ if __name__ == "__main__":
     vsm = VSM()
     vsm.stopword_file_path = "../resource/stopword-list.txt"
 
-    # search engine uses the 'cache' technique to store the calculated doc vectors
-    # and bag-of-words in a file named '../out/tf-idf.xlsx'
-
-    # when cache is NOT found,
-    #   the whole program with query executed in 18 seconds.
-
-    # when cache IS found,
-    #   the whole program with query executed in 10 seconds.
-    # hence, a performance improvement of ** 8 ** seconds is achieved with no extra CPU utilization
-
     # imports the data required for lemmatization
     vsm.import_nltk_data("../resource/nltk_data/")
 
@@ -52,6 +42,8 @@ if __name__ == "__main__":
         print(datetime.now().strftime("%H:%M:%S") + ": cache saved to disk")
 
     while True:
+
+        print("*********************************")
         # takes query from user as string appends a space to the end of query for tokenizer handling
         query = input(datetime.now().strftime("%H:%M:%S") + ": search (0: exit): ") + " "
         # query = "pakistan afghanistan "
@@ -59,14 +51,23 @@ if __name__ == "__main__":
         if query == "0 ":
             break
 
-        alpha = float(input(datetime.now().strftime("%H:%M:%S") + ": enter alpha: "))
+        alpha = input(datetime.now().strftime("%H:%M:%S") + ": enter alpha: ")
+        print("*********************************")
         # alpha = 0.0005
 
-        # fills the query vector with tf-idf values
-        vsm.update_doc_sheet(doc_sheet, query)
-        # ret result-set as {doc-id: angle, doc-id: angle, ...}
-        result_set = vsm.create_result_set(doc_sheet, alpha)
-        vsm.write_result_to_file("../out/result_set.txt", result_set, query, alpha)
+        if query != " " and alpha != "":
+
+            alpha = float(alpha)
+            # alpha = 0.0005
+
+            # fills the query vector with tf-idf values
+            vsm.update_doc_sheet(doc_sheet, query)
+            # ret result-set as {doc-id: angle, doc-id: angle, ...}
+            result_set = vsm.create_result_set(doc_sheet, alpha)
+            vsm.write_result_to_file("../out/result_set.txt", result_set, query, alpha)
+        else:
+            print(datetime.now().strftime("%H:%M:%S") + ": empty query or alpha. try again !!!")
+
     # loop end
 
     workbook.close()
