@@ -2,8 +2,8 @@
 
 Documents and queries are represented as vectors.
 
-![Vector-1](https://wikimedia.org/api/rest_v1/media/math/render/svg/6568769b5001c6040e121596945b7e419dddb4da)
-![Vector-2](https://wikimedia.org/api/rest_v1/media/math/render/svg/d5b3e7c8ef051ef2c6411266ea1a490d36c8011e)
+- ![Document-Vector](https://wikimedia.org/api/rest_v1/media/math/render/svg/6568769b5001c6040e121596945b7e419dddb4da)
+- ![Query-Vector](https://wikimedia.org/api/rest_v1/media/math/render/svg/d5b3e7c8ef051ef2c6411266ea1a490d36c8011e)
 
 Each dimension corresponds to a separate term. If a term occurs in the document, its value in the vector is non-zero. Several different ways of computing these values, also known as (term) weights, have been developed. One of the best known schemes is tf-idf weighting (see the example below).
 
