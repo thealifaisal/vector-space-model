@@ -1,5 +1,7 @@
 # Vector Space Model
 
+## Definition
+
 Documents and queries are represented as vectors.
 
 - ![Document-Vector](https://wikimedia.org/api/rest_v1/media/math/render/svg/6568769b5001c6040e121596945b7e419dddb4da)
