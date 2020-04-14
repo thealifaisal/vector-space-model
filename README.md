@@ -1,6 +1,19 @@
-# Algorithm
+# Vector Space Model
 
-## Overview
+Documents and queries are represented as vectors.
+
+![Vector-1](https://wikimedia.org/api/rest_v1/media/math/render/svg/6568769b5001c6040e121596945b7e419dddb4da)
+![Vector-2](https://wikimedia.org/api/rest_v1/media/math/render/svg/d5b3e7c8ef051ef2c6411266ea1a490d36c8011e)
+
+Each dimension corresponds to a separate term. If a term occurs in the document, its value in the vector is non-zero. Several different ways of computing these values, also known as (term) weights, have been developed. One of the best known schemes is tf-idf weighting (see the example below).
+
+The definition of term depends on the application. Typically terms are single words, keywords, or longer phrases. If words are chosen to be the terms, the dimensionality of the vector is the number of words in the vocabulary (the number of distinct words occurring in the corpus).
+
+Vector operations can be used to compare documents with queries.
+
+## Algorithm
+
+### Overview
 
 In VSM, all the documents are parsed and tokenized and then lemmatized. A bag of words is formed.
 N number of document-vectors are created having dimension of size length of bag-of-words.
@@ -10,7 +23,7 @@ in its dimensions. Dot product is calculated between the query and every documen
 The scalar product found is then divided by product of norm of query and document vector to find the cosine angle.
 If the cosine angle is closer to cos(0)=1 and greater then cut-off the such a document is relavent and is added to result set.
 
-## Detailed
+### Detailed
 
 1 - When a program starts, it will check for a cache file named tf-idf.xlsx in the folder named 'out'.
 If the cache is found, then it will load the excel file into the memory and goes to step - 9, else to step - 2. 
